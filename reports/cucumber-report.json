@@ -1,0 +1,639 @@
+[
+  {
+    "description": "",
+    "elements": [
+      {
+        "description": "",
+        "id": "login-functionality;successful-login",
+        "keyword": "Scenario",
+        "line": 3,
+        "name": "Successful Login",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 210092799
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 4,
+            "name": "I open the SauceDemo login page",
+            "match": {
+              "location": "tests\\step-definitions\\loginSteps.js:12"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 496867699
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 5,
+            "name": "I enter valid credentials",
+            "match": {
+              "location": "tests\\step-definitions\\loginSteps.js:17"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 78021099
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 6,
+            "name": "I click the login button",
+            "match": {
+              "location": "tests\\step-definitions\\loginSteps.js:29"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 113079400
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 7,
+            "name": "I should see the inventory page",
+            "match": {
+              "location": "tests\\step-definitions\\loginSteps.js:33"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 16665400
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "login-functionality;login-with-invalid-credentials",
+        "keyword": "Scenario",
+        "line": 8,
+        "name": "Login with invalid credentials",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 88968200
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 9,
+            "name": "I open the SauceDemo login page",
+            "match": {
+              "location": "tests\\step-definitions\\loginSteps.js:12"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 125548199
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 10,
+            "name": "I enter invalid credentials",
+            "match": {
+              "location": "tests\\step-definitions\\loginSteps.js:21"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 58961600
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 11,
+            "name": "I click the login button",
+            "match": {
+              "location": "tests\\step-definitions\\loginSteps.js:29"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 51071100
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 12,
+            "name": "I should see an error message \"Epic sadface: Username and password do not match any user in this service\"",
+            "match": {
+              "location": "tests\\step-definitions\\loginSteps.js:37"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 5091300
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "login-functionality;login-with-empty-fields",
+        "keyword": "Scenario",
+        "line": 13,
+        "name": "Login with empty fields",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 48144100
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 14,
+            "name": "I open the SauceDemo login page",
+            "match": {
+              "location": "tests\\step-definitions\\loginSteps.js:12"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 132740900
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 15,
+            "name": "I leave the username and password fields empty",
+            "match": {
+              "location": "tests\\step-definitions\\loginSteps.js:25"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 56682299
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 16,
+            "name": "I click the login button",
+            "match": {
+              "location": "tests\\step-definitions\\loginSteps.js:29"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 50761199
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 17,
+            "name": "I should see an error message \"Epic sadface: Username is required\"",
+            "match": {
+              "location": "tests\\step-definitions\\loginSteps.js:37"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 4024300
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "login-functionality;inventory-page-should-list-all-products-after-login",
+        "keyword": "Scenario",
+        "line": 19,
+        "name": "Inventory page should list all products after login",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 47546299
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 20,
+            "name": "I open the SauceDemo login page",
+            "match": {
+              "location": "tests\\step-definitions\\loginSteps.js:12"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 124661999
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 21,
+            "name": "I enter valid credentials",
+            "match": {
+              "location": "tests\\step-definitions\\loginSteps.js:17"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 54517299
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 22,
+            "name": "I click the login button",
+            "match": {
+              "location": "tests\\step-definitions\\loginSteps.js:29"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 87260999
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 23,
+            "name": "I should see the inventory page",
+            "match": {
+              "location": "tests\\step-definitions\\loginSteps.js:33"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 13517299
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 24,
+            "name": "I should see a list of products",
+            "match": {
+              "location": "tests\\step-definitions\\loginSteps.js:44"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 8939600
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "login-functionality;sort-products-by-price-(low-to-high)",
+        "keyword": "Scenario",
+        "line": 26,
+        "name": "Sort Products by Price (Low to High)",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 48223500
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 27,
+            "name": "I am logged in to the inventory page",
+            "match": {
+              "location": "tests\\step-definitions\\loginSteps.js:54"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 282428400
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 28,
+            "name": "I sort products by \"Price (low to high)\"",
+            "match": {
+              "location": "tests\\step-definitions\\loginSteps.js:63"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1020999700
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 29,
+            "name": "the first product should have the lowest price",
+            "match": {
+              "location": "tests\\step-definitions\\loginSteps.js:67"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 41168499
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 30,
+            "name": "the last product should have the highest price",
+            "match": {
+              "location": "tests\\step-definitions\\loginSteps.js:74"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 51283300
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "login-functionality;add-multiple-products-to-cart",
+        "keyword": "Scenario",
+        "line": 32,
+        "name": "Add Multiple Products to Cart",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 50222799
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 33,
+            "name": "I am logged in to the inventory page",
+            "match": {
+              "location": "tests\\step-definitions\\loginSteps.js:54"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 301001699
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 34,
+            "name": "I add the \"Sauce Labs Backpack\" to the cart",
+            "match": {
+              "location": "tests\\step-definitions\\loginSteps.js:82"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 3045973299
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 35,
+            "name": "I add the \"Sauce Labs Bike Light\" to the cart",
+            "match": {
+              "location": "tests\\step-definitions\\loginSteps.js:82"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 3853576100
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 36,
+            "name": "the cart icon should display \"2\"",
+            "match": {
+              "location": "tests\\step-definitions\\loginSteps.js:88"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 3548899
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 37,
+            "name": "both items should appear in the shopping cart",
+            "match": {
+              "location": "tests\\step-definitions\\loginSteps.js:95"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 67244699
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "login-functionality;remove-product-from-cart",
+        "keyword": "Scenario",
+        "line": 39,
+        "name": "Remove Product from Cart",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 49375000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 40,
+            "name": "I am logged in to the inventory page",
+            "match": {
+              "location": "tests\\step-definitions\\loginSteps.js:54"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 278330700
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 43,
+            "name": "I go to the cart",
+            "match": {
+              "location": "tests\\step-definitions\\loginSteps.js:108"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 56270300
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 44,
+            "name": "I remove the \"Sauce Labs Bike Light\" from the cart",
+            "match": {
+              "location": "tests\\step-definitions\\loginSteps.js:113"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 3048876800
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 45,
+            "name": "the cart icon should display \"1\"",
+            "match": {
+              "location": "tests\\step-definitions\\loginSteps.js:88"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 3528200
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 46,
+            "name": "only \"Sauce Labs Backpack\" should remain in the cart",
+            "match": {
+              "location": "tests\\step-definitions\\loginSteps.js:119"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 37597700
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "login-functionality;complete-checkout-with-valid-information",
+        "keyword": "Scenario",
+        "line": 48,
+        "name": "Complete Checkout with Valid Information",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 48941500
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 49,
+            "name": "I have \"Sauce Labs Backpack\" in my cart",
+            "match": {
+              "location": "tests\\step-definitions\\loginSteps.js:128"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 382763900
+            }
+          },
+          {
+            "arguments": [
+              {
+                "rows": [
+                  {
+                    "cells": [
+                      "First Name",
+                      "Last Name",
+                      "ZIP Code"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "John",
+                      "Doe",
+                      "90210"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "keyword": "When ",
+            "line": 50,
+            "name": "I proceed to checkout with:",
+            "match": {
+              "location": "tests\\step-definitions\\loginSteps.js:141"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 2283870500
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 53,
+            "name": "I complete the order",
+            "match": {
+              "location": "tests\\step-definitions\\loginSteps.js:152"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 364512500
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 54,
+            "name": "I should see the confirmation message \"Thank you for your order!\"",
+            "match": {
+              "location": "tests\\step-definitions\\loginSteps.js:156"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 4457900
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      }
+    ],
+    "id": "login-functionality",
+    "line": 1,
+    "keyword": "Feature",
+    "name": "Login Functionality",
+    "tags": [],
+    "uri": "tests\\features\\login.feature"
+  }
+]
