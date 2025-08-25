@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create a Custom Component</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .popup-trigger {
+            background: linear-gradient(135deg, #007acc, #005a9e);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 122, 204, 0.3);
+        }
+
+        .popup-trigger::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .popup-trigger:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .popup-trigger:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 122, 204, 0.5);
+        }
+
+        .popup-trigger:active {
+            transform: translateY(0);
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            width: 90%;
+            max-width: 1200px;
+            height: 90vh;
+            background-color: #252526;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-header {
+            background-color: #2d2d30;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #3e3e42;
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        .close-button {
+            background: none;
+            border: none;
+            color: #cccccc;
+            font-size: 24px;
+            cursor: pointer;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .close-button:hover {
+            background-color: #3e3e42;
+            color: #ffffff;
+        }
+
+        .modal-body {
+            flex-grow: 1;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .left-section {
+            width: 35%;
+            background-color: #252526;
+            padding: 20px;
+            overflow-y: auto;
+            border-right: 1px solid #3e3e42;
+            scrollbar-width: thin;
+            scrollbar-color: #3e3e42 #2d2d30;
+        }
+
+        .left-section::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .left-section::-webkit-scrollbar-track {
+            background: #2d2d30;
+        }
+
+        .left-section::-webkit-scrollbar-thumb {
+            background-color: #3e3e42;
+            border-radius: 4px;
+        }
+
+        .left-section::-webkit-scrollbar-thumb:hover {
+            background-color: #4e4e52;
+        }
+
+        .right-section {
+            width: 65%;
+            background-color: #1e1e1e;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            scrollbar-width: thin;
+            scrollbar-color: #3e3e42 #1e1e1e;
+        }
+
+        .right-section::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .right-section::-webkit-scrollbar-track {
+            background: #1e1e1e;
+        }
+
+        .right-section::-webkit-scrollbar-thumb {
+            background-color: #3e3e42;
+            border-radius: 4px;
+        }
+
+        .right-section::-webkit-scrollbar-thumb:hover {
+            background-color: #4e4e52;
+        }
+
+        .title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #ffffff;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .step {
+            margin-bottom: 10px;
+            border-radius: 4px;
+            overflow: hidden;
+            background-color: #2d2d30;
+            border: 1px solid #3e3e42;
+            transition: all 0.3s ease;
+            animation: slideIn 0.5s ease forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .step:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+
+        .step:nth-child(3) {
+            animation-delay: 0.2s;
+        }
+
+        .step:nth-child(4) {
+            animation-delay: 0.3s;
+        }
+
+        @keyframes slideIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .step-header {
+            padding: 12px 15px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #2d2d30;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .step-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .step-header:hover::before {
+            left: 100%;
+        }
+
+        .step-header:hover {
+            background-color: #3e3e42;
+            transform: translateX(5px);
+        }
+
+        .step-header.active {
+            background-color: #094771;
+            box-shadow: 0 0 10px rgba(0, 122, 204, 0.5);
+        }
+
+        .step-title {
+            font-weight: 500;
+            font-size: 14px;
+            z-index: 1;
+        }
+
+        .step-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            background-color: #2d2d30;
+        }
+
+        .step-content-inner {
+            padding: 15px;
+            border-top: 1px solid #3e3e42;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .step-description {
+            font-size: 13px;
+            line-height: 1.5;
+            color: #cccccc;
+            margin-bottom: 15px;
+        }
+
+        .next-button {
+            background: linear-gradient(135deg, #007acc, #005a9e);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .next-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .next-button:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .next-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 122, 204, 0.4);
+        }
+
+        .next-button:active {
+            transform: translateY(0);
+        }
+
+        .arrow-icon {
+            display: inline-block;
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-top: 5px solid white;
+            transform: rotate(-90deg);
+            transition: transform 0.3s ease;
+        }
+
+        .next-button:hover .arrow-icon {
+            transform: rotate(-90deg) translateX(2px);
+        }
+
+        .code-container {
+            flex-grow: 1;
+            background-color: #1e1e1e;
+            border-radius: 4px;
+            overflow: hidden;
+            border: 1px solid #3e3e42;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .code-header {
+            background-color: #2d2d30;
+            padding: 8px 15px;
+            border-bottom: 1px solid #3e3e42;
+            font-size: 13px;
+            color: #cccccc;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .code-file-icon {
+            width: 16px;
+            height: 16px;
+            background-color: #007acc;
+            border-radius: 2px;
+        }
+
+        .code-content {
+            padding: 15px;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            overflow-x: auto;
+            white-space: pre;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .code-keyword {
+            color: #569cd6;
+        }
+
+        .code-function {
+            color: #dcdcaa;
+        }
+
+        .code-string {
+            color: #ce9178;
+        }
+
+        .code-tag {
+            color: #569cd6;
+        }
+
+        .code-attribute {
+            color: #9cdcfe;
+        }
+
+        .code-comment {
+            color: #6a9955;
+        }
+
+        .code-bracket {
+            color: #d4d4d4;
+        }
+
+        .code-operator {
+            color: #d4d4d4;
+        }
+
+        .code-variable {
+            color: #9cdcfe;
+        }
+
+        .code-text {
+            color: #d4d4d4;
+        }
+
+        .step.active .step-content {
+            box-shadow: inset 0 0 10px rgba(0, 122, 204, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <button class="popup-trigger" id="popupTrigger">Click Me</button>
+
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">Create a Custom Component</div>
+                <button class="close-button" id="closeButton">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="left-section">
+                    <h1 class="title">Create a Custom Component</h1>
+                    
+                    <div class="step" id="step1">
+                        <div class="step-header">
+                            <div class="step-title">1. Create an ExampleComponent</div>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-content-inner">
+                                <p class="step-description">To create a custom component, first define a new function component. This component will serve as the foundation for your custom UI element. Components are the building blocks of React applications.</p>
+                                <button class="next-button" data-next="step2">
+                                    Next <span class="arrow-icon"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="step" id="step2">
+                        <div class="step-header">
+                            <div class="step-title">2. Structuring the Component</div>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-content-inner">
+                                <p class="step-description">Structure your component by defining its props and return statement. The component should accept props, especially children, to make it reusable across your application.</p>
+                                <button class="next-button" data-next="step3">
+                                    Next <span class="arrow-icon"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="step" id="step3">
+                        <div class="step-header">
+                            <div class="step-title">3. Using the Component</div>
+                        </div>
+                        <div class="step-content">
+                            <div class="step-content-inner">
+                                <p class="step-description">Once your component is defined, you can use it in your application by importing it and including it in your JSX. Components can be nested and reused throughout your app.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="right-section">
+                    <div class="code-container">
+                        <div class="code-header">
+                            <div class="code-file-icon"></div>
+                            <span>ExampleComponent.js</span>
+                        </div>
+                        <div class="code-content" id="codeDisplay">
+<span class="code-comment">// Select a step to view the code</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const popupTrigger = document.getElementById('popupTrigger');
+            const modalOverlay = document.getElementById('modalOverlay');
+            const closeButton = document.getElementById('closeButton');
+            const steps = document.querySelectorAll('.step');
+            const codeDisplay = document.getElementById('codeDisplay');
+            
+            const codeContents = {
+                step1: `<span class="code-keyword">import</span> React <span class="code-keyword">from</span> <span class="code-string">'react'</span>;
+
+<span class="code-comment">// Define a new functional component</span>
+<span class="code-keyword">export const</span> <span class="code-function">ExampleComponent</span> = <span class="code-bracket">(</span><span class="code-bracket">)</span> <span class="code-operator">=></span> <span class="code-bracket">{</span>
+  <span class="code-keyword">return</span> <span class="code-bracket">(</span>
+    <span class="code-tag">&lt;div&gt;</span>
+      <span class="code-tag">&lt;h2&gt;</span><span class="code-text">Example Component</span><span class="tag">&lt;/h2&gt;</span>
+      <span class="code-tag">&lt;p&gt;</span><span class="code-text">This is a basic custom component.</span><span class="tag">&lt;/p&gt;</span>
+    <span class="code-tag">&lt;/div&gt;</span>
+  <span class="code-bracket">)</span>;
+<span class="code-bracket">}</span>;`,
+
+                step2: `<span class="code-keyword">import</span> React <span class="code-keyword">from</span> <span class="code-string">'react'</span>;
+
+<span class="code-comment">// Define a component that accepts children as props</span>
+<span class="code-keyword">export const</span> <span class="code-function">ExampleComponent</span> = <span class="code-bracket">(</span><span class="code-bracket">{</span> <span class="code-variable">children</span> <span class="code-bracket">}</span><span class="code-bracket">)</span> <span class="code-operator">=></span> <span class="code-bracket">{</span>
+  <span class="code-keyword">return</span> <span class="code-bracket">(</span>
+    <span class="code-tag">&lt;div</span> <span class="code-attribute">className</span>=<span class="code-string">"example-component"</span><span class="code-tag">&gt;</span>
+      <span class="code-tag">&lt;div</span> <span class="code-attribute">className</span>=<span class="code-string">"component-header"</span><span class="code-tag">&gt;</span>
+        <span class="code-tag">&lt;h3&gt;</span><span class="code-text">Custom Component</span><span class="code-tag">&lt;/h3&gt;</span>
+      <span class="code-tag">&lt;/div&gt;</span>
+      <span class="code-tag">&lt;div</span> <span class="code-attribute">className</span>=<span class="code-string">"component-content"</span><span class="code-tag">&gt;</span>
+        <span class="code-bracket">{</span><span class="code-variable">children</span><span class="code-bracket">}</span>
+      <span class="code-tag">&lt;/div&gt;</span>
+    <span class="code-tag">&lt;/div&gt;</span>
+  <span class="code-bracket">)</span>;
+<span class="code-bracket">}</span>;`,
+
+                step3: `<span class="code-keyword">import</span> React <span class="code-keyword">from</span> <span class="code-string">'react'</span>;
+<span class="code-keyword">import</span> <span class="code-bracket">{</span> <span class="code-variable">ExampleComponent</span> <span class="code-bracket">}</span> <span class="code-keyword">from</span> <span class="code-string">'./ExampleComponent'</span>;
+
+<span class="code-keyword">const</span> <span class="code-function">App</span> = <span class="code-bracket">(</span><span class="code-bracket">)</span> <span class="code-operator">=></span> <span class="code-bracket">{</span>
+  <span class="code-keyword">return</span> <span class="code-bracket">(</span>
+    <span class="code-tag">&lt;div</span> <span class="code-attribute">className</span>=<span class="code-string">"app"</span><span class="code-tag">&gt;</span>
+      <span class="code-tag">&lt;h1&gt;</span><span class="code-text">My Application</span><span class="code-tag">&lt;/h1&gt;</span>
+      
+      <span class="code-tag">&lt;ExampleComponent&gt;</span>
+        <span class="code-text">Here's a very simple example component that can be reused throughout your application.</span>
+      <span class="code-tag">&lt;/ExampleComponent&gt;</span>
+      
+      <span class="code-tag">&lt;ExampleComponent&gt;</span>
+        <span class="code-text">This is another instance of the same component with different content.</span>
+      <span class="code-tag">&lt;/ExampleComponent&gt;</span>
+    <span class="code-tag">&lt;/div&gt;</span>
+  <span class="code-bracket">)</span>;
+<span class="code-bracket">}</span>;
+
+<span class="code-keyword">export default</span> <span class="code-variable">App</span>;`
+            };
+            
+            // Open popup when trigger button is clicked
+            popupTrigger.addEventListener('click', () => {
+                modalOverlay.classList.add('active');
+                
+                // Initialize with step 1 active when popup opens
+                setTimeout(() => {
+                    const step1 = document.getElementById('step1');
+                    step1.classList.add('active');
+                    step1.querySelector('.step-content').style.maxHeight = step1.querySelector('.step-content-inner').scrollHeight + 'px';
+                    codeDisplay.innerHTML = codeContents.step1;
+                }, 300);
+            });
+            
+            // Close popup when close button is clicked
+            closeButton.addEventListener('click', () => {
+                modalOverlay.classList.remove('active');
+                
+                // Reset all steps when closing
+                steps.forEach(step => {
+                    step.classList.remove('active');
+                    step.querySelector('.step-content').style.maxHeight = '0';
+                });
+            });
+            
+            // Close popup when clicking outside the modal content
+            modalOverlay.addEventListener('click', (e) => {
+                if (e.target === modalOverlay) {
+                    modalOverlay.classList.remove('active');
+                    
+                    // Reset all steps when closing
+                    steps.forEach(step => {
+                        step.classList.remove('active');
+                        step.querySelector('.step-content').style.maxHeight = '0';
+                    });
+                }
+            });
+            
+            steps.forEach(step => {
+                const header = step.querySelector('.step-header');
+                const content = step.querySelector('.step-content');
+                const contentInner = step.querySelector('.step-content-inner');
+                const nextButton = step.querySelector('.next-button');
+                
+                header.addEventListener('click', () => {
+                    // Close all steps
+                    steps.forEach(s => {
+                        if (s !== step) {
+                            s.classList.remove('active');
+                            s.querySelector('.step-content').style.maxHeight = '0';
+                        }
+                    });
+                    
+                    // Toggle current step
+                    step.classList.toggle('active');
+                    
+                    if (step.classList.contains('active')) {
+                        content.style.maxHeight = contentInner.scrollHeight + 'px';
+                        // Update code display
+                        codeDisplay.innerHTML = codeContents[step.id];
+                    } else {
+                        content.style.maxHeight = '0';
+                    }
+                });
+                
+                // Handle next button clicks
+                if (nextButton) {
+                    nextButton.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const nextStepId = nextButton.getAttribute('data-next');
+                        const nextStep = document.getElementById(nextStepId);
+                        
+                        if (nextStep) {
+                            // Close current step
+                            step.classList.remove('active');
+                            content.style.maxHeight = '0';
+                            
+                            // Open next step
+                            setTimeout(() => {
+                                nextStep.classList.add('active');
+                                const nextContent = nextStep.querySelector('.step-content');
+                                const nextContentInner = nextStep.querySelector('.step-content-inner');
+                                nextContent.style.maxHeight = nextContentInner.scrollHeight + 'px';
+                                codeDisplay.innerHTML = codeContents[nextStepId];
+                                
+                                // Scroll to next step
+                                nextStep.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                            }, 300);
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
